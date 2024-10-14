@@ -75,7 +75,7 @@ run_mantel_tests_and_save_results('AS', 'ES', mantel_results)
 results_df = pd.DataFrame(mantel_results, columns=['Dataset', 'Group 1 Prefix', 'Group 2 Prefix', 'Mantel Statistic', 'P-value'])
 
 # Save results to a TSV file
-results_filename = 'mantel_results_with_nutrients.tsv'
+results_filename = 'mantel_results.tsv'
 out_filename = os.path.join(output_dir, results_filename)
 results_df.to_csv(out_filename, sep='\t', index=False)
 
