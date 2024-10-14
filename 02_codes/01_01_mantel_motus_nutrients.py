@@ -35,8 +35,11 @@ def perform_mantel_test_between_datasets(df1, df2, prefix):
     common_samples = set(df1_samples).intersection(df2_samples)
     
     if not common_samples:
-        print(f"No hay muestras comunes para el prefijo {prefix}")
+        print(f"No common samples found for prefix {prefix}")
         return None, None
+    
+    # Convert common_samples to a list
+    common_samples = list(common_samples)
     
     # Subset the dataframes to the common samples
     df1_subset = df1.loc[common_samples]
@@ -67,19 +70,16 @@ def run_mantel_tests_between_motus_and_nutrients(prefixes, results_list):
             if stat is not None:
                 results_list.append([dataset_name, prefix, stat, p_value])
             else:
-                print(f"No hay muestras comunes para el conjunto de datos {dataset_name} y el prefijo {prefix}")
+                print(f"No common samples for dataset {dataset_name} and prefix {prefix}")
 
 mantel_results = []
 
-# Run tests and collect results
 run_mantel_tests_between_motus_and_nutrients(['AS', 'ES'], mantel_results)
 
-# Convert results to a DataFrame
 results_df = pd.DataFrame(mantel_results, columns=['Dataset', 'Prefix', 'Mantel Statistic', 'P-value'])
 
-# Save results to a TSV file
 results_filename = 'mantel_results_motus_vs_nutrients.tsv'
 out_filename = os.path.join(output_dir, results_filename)
 results_df.to_csv(out_filename, sep='\t', index=False)
 
-print(f"Resultados de las pruebas de Mantel guardados en {out_filename}")
+print(f"Mantel test results saved to {out_filename}")
